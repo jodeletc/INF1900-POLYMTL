@@ -1,46 +1,39 @@
 #include "Timer.h"
 
-Timer::Timer(uint8_t timer, uint8_t time_ms) : timer(timer){
-    switch (timer){
+Timer::Timer(TimerConfig config_p) : config(config_p){
+
+    switch(config.timer){
         case 0:
-            timer_freq = F_CPU / PRESCALER_8BITS;
+            timer_freq = F_CPU / config.prescaler;
             TCCR0A = 0;
-            TCCR0B |= (1 << WGM12) | (1 << CS02); //prescaler 256 and CTC mode
+            TCCR0B |= (1 << WGM12) | TIMER0_2_PRESCALERS_MAP[config.prescaler]; //prescaler 256 and CTC mode
             TCNT0 = 0;
-            OCR0A = uint16_t{timer_freq * time_ms / 1000};
+            OCR0A = uint16_t{timer_freq * config.delay_ms / 1000};
             break;
         case 1:
-            timer_freq = F_CPU / PRESCALER_16BITS;
-            // Initialize timer 1
+            timer_freq = F_CPU / config.prescaler;
             TCCR1A |= 0;
-            TCCR1B |= (1 << WGM12) | (1 << CS12) | (1 << CS10); //prescaler 1024 and CTC mode
+            TCCR1B |= (1 << WGM12) | TIMER1_PRESCALERS_MAP[config.prescaler]; //prescaler 1024 and CTC mode
             TCNT1 = 0;
-            OCR1A = uint16_t{timer_freq * time_ms / 1000};
+            OCR1A = uint16_t{timer_freq * config.delay_ms / 1000};
             break;
         case 2:
-            timer_freq = F_CPU / PRESCALER_8BITS;
-            // Initialize timer 2
+            timer_freq = F_CPU / config.prescaler;
             TCCR2A = 0;
-            TCCR2B |= (1 << WGM12) | (1 << CS22); //prescaler 256 and CTC mode
+            TCCR2B |= (1 << WGM12) | TIMER0_2_PRESCALERS_MAP[config.prescaler]; //prescaler 256 and CTC mode
             TCNT2 = 0;
-            OCR2A = uint16_t{timer_freq * time_ms / 1000};
-            break;
-        default:
-            // Throw error
+            OCR2A = uint16_t{timer_freq * config.delay_ms / 1000};
             break;
     }
 }
 
 Timer::~Timer(){
-    // Deinitialize timer
-    // reset all registers
-
 }
 
 void Timer::enable(){
     // Start timer
     this->reset();
-    switch (timer){
+    switch (config.timer){
         case 0:
             TIMSK0 |= (1 << OCIE0A);
             break;
@@ -58,7 +51,7 @@ void Timer::enable(){
 
 void Timer::disable(){
     // Stop timer
-    switch (timer){
+    switch (config.timer){
         case 0:
             TIMSK0 &= ~(1 << OCIE0A);
             break;
@@ -76,7 +69,7 @@ void Timer::disable(){
 
 void Timer::reset(){
     // Reset timer
-    switch (timer){
+    switch (config.timer){
         case 0:
             TCNT0 = 0;
             break;
