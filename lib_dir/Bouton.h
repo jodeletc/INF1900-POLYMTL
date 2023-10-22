@@ -1,4 +1,5 @@
   #include <stdint.h>
+  #include <avr/io.h>
   class Bouton{
     public:
     Bouton(uint8_t int_N_p);
@@ -12,5 +13,5 @@
     void reset();
 
     private:
-        uint8_t int_N_p;
+        uint8_t int_N;
   };

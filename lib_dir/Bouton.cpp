@@ -1,8 +1,4 @@
 #include "Bouton.h"
-#include <avr/interrupt.h>
-#include <avr/io.h
-#define F_CPU 8000000UL
-#include <util/delay.h>
 
 /*
 volatile uint8_t btnState = false;
@@ -22,7 +18,7 @@ Bouton::Bouton(uint8_t int_N_p) : int_N(int_N_p)
 
 Bouton::~Bouton(){ }
 
-void Bouton::setRisingEdge(int_N)
+void Bouton::setRisingEdge()
 {
     reset();
 
@@ -30,7 +26,7 @@ void Bouton::setRisingEdge(int_N)
 
     EICRA = (1 << ISC01);
 }
-void Bouton::setFallingEdge(int_N)
+void Bouton::setFallingEdge()
 {
     reset();
 
@@ -39,7 +35,7 @@ void Bouton::setFallingEdge(int_N)
     EICRA = (1 << ISC01);
 
 }
-void Bouton::setAnyEdge(int_N)
+void Bouton::setAnyEdge()
 {
     reset();
 
@@ -49,17 +45,17 @@ void Bouton::setAnyEdge(int_N)
 
 }
 
-void Bouton::enableInterrupt(int_N)
+void Bouton::enableInterrupt()
 {
     EIMSK |= (1 << int_N); // on active l'interruption sur int_N
 }
 
-void Bouton::disableInterrupt(int_N)
+void Bouton::disableInterrupt()
 {
     EIMSK &= ~(1 << int_N); // on desactive l'interruption sur int_
 }
 
-void reset(){
+void Bouton::reset(){
     EICRA &= ~(1 << ISC00);
 
     EICRA &= ~(1 << ISC01);
