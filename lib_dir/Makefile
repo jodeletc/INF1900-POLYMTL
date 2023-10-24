@@ -1,30 +1,73 @@
-# Nom de la bibliothèque
-LIBNAME = libstatique.a
+########       AVR Library Makefile       ########
+#####                                        #####
+#####      Makefile adapté par ChatGPT       #####
+#####          pour lib_dir - 2023           #####
+##################################################
 
-# Répertoire des headers
-INCDIR = .
+# Ce Makefile vous permet de compiler des projets
+# pour les microcontroleurs Atmel AVR sur 
+# Linux ou Unix, en utilisant l'outil AVR-GCC. 
+# Ce Makefile supporte C & C++
 
-# Compilateur et options
-CC = avr-gcc
-CFLAGS = -I$(INCDIR) -c
+#####      Details spécifique à la cible       #####
+MCU=atmega324pa
+PROJECTNAME=libstatique
+PRJSRC= LED.cpp Timer.cpp
+INC=
+LIBS=
+OPTLEVEL=s
 
-# Commande 'ar' et options
-AR = avr-ar
-ARFLAGS = crs
+####################################################
 
-# Liste des fichiers sources et objets
-SOURCES = LED.cpp Timer.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
+####### variables #######
+CC=avr-gcc
+OBJCOPY=avr-objcopy
+AVRDUDE=avrdude
+REMOVE=rm -f
+HEXFORMAT=ihex
+AR=avr-ar
 
-all: $(LIBNAME)
+####### Options de compilation #######
+CFLAGS=-I. -MMD $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
+	-std=c++14 -fpack-struct -fshort-enums \
+	-funsigned-bitfields -funsigned-char \
+	-Wall
 
-$(LIBNAME): $(OBJECTS)
-	$(AR) $(ARFLAGS) $@ $^
+GCCVERSION := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 12)
+ifeq "$(GCCVERSION)" "1"
+    CFLAGS += --param=min-pagesize=0
+endif
+
+CXXFLAGS=-fno-exceptions
+
+####### Cible (Target) #######
+TRG=$(PROJECTNAME).a
+
+####### Definition de tout les fichiers objets #######
+CFILES=$(filter %.c, $(PRJSRC))
+CPPFILES=$(filter %.cpp, $(PRJSRC))
+OBJDEPS=$(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+
+####### Creation des commandes du Makefile #######
+.PHONY: all install clean
+
+all: $(TRG)
+
+$(TRG): $(OBJDEPS)
+	$(AR) rcs $(TRG) $(OBJDEPS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CXXFLAGS) -c $<
+
+-include *.d
+
+install: $(TRG)
+	@echo "Librairie compilée. Vous pouvez maintenant l'utiliser dans vos projets."
 
 clean:
-	rm -f $(OBJECTS) $(LIBNAME)
+	$(REMOVE) $(TRG) $(OBJDEPS) *.d
 
-.PHONY: all clean
+#####                    EOF                   #####
