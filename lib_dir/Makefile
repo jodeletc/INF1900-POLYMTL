@@ -1,6 +1,6 @@
 ########       AVR Library Makefile       ########
 #####                                        #####
-#####      Makefile adapté par ChatGPT       #####
+#####      Makefile adapté                  #####
 #####          pour lib_dir - 2023           #####
 ##################################################
 
@@ -12,7 +12,7 @@
 #####      Details spécifique à la cible       #####
 MCU=atmega324pa
 PROJECTNAME=libstatique
-PRJSRC= LED.cpp Timer.cpp
+PRJSRC= LED.cpp Timer.cpp Bouton.cpp Wheel.cpp
 INC=
 LIBS=
 OPTLEVEL=s
@@ -65,7 +65,7 @@ $(TRG): $(OBJDEPS)
 -include *.d
 
 install: $(TRG)
-	@echo "Librairie compilée. Vous pouvez maintenant l'utiliser dans vos projets."
+	@echo "Librairie compilée. "
 
 clean:
 	$(REMOVE) $(TRG) $(OBJDEPS) *.d

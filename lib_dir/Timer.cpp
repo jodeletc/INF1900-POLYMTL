@@ -1,3 +1,4 @@
+
 #include "Timer.h"
 
 uint8_t Timer::findPrescalerBits(uint16_t prescaler, uint8_t timer){
