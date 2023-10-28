@@ -8,17 +8,23 @@ class Navigation
 public:
     Navigation();
 
-    void forward();
-    void backward();
-    void go(uint16_t speed);
+    void go(uint16_t speed, bool backward);
+    void goLeftWheel(uint16_t speed, bool backward);
+    void goRightWheel(uint16_t speed, bool backward);
     void stop();
-    void turnLeftWheel(uint16_t speed);
-    void turnRightWheel(uint16_t speed);
-    void spin();
+    void stopLeft();
+    void stopRight();
 
 private:
     Wheel _leftWheel;
     Wheel _rightWheel;
+
+    void forward();
+    void backward();
+    void leftForward();
+    void rightForward();
+    void leftBackward();
+    void rightBackward();
 
     static uint16_t _validateSpeed(uint16_t speed);
 };
