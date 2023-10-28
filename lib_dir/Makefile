@@ -1,6 +1,6 @@
 ########       AVR Library Makefile       ########
 #####                                        #####
-#####      Makefile adapté                  #####
+#####                      #####
 #####          pour lib_dir - 2023           #####
 ##################################################
 
@@ -12,7 +12,7 @@
 #####      Details spécifique à la cible       #####
 MCU=atmega324pa
 PROJECTNAME=libstatique
-PRJSRC= LED.cpp Timer.cpp Bouton.cpp Wheel.cpp Navigation.cpp memoire_24.cpp Communication.cpp can.cpp
+PRJSRC= LED.cpp Timer.cpp Bouton.cpp Wheel.cpp Navigation.cpp memoire_24.cpp Communication.cpp can.cpp Debug.cpp
 INC=
 LIBS=
 OPTLEVEL=s
