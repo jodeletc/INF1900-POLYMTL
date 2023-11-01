@@ -1,26 +1,17 @@
-#pragma once
-
 #define F_CPU 8000000UL
 #include <avr/io.h>
 #include <util/delay.h>
+// interrupt
 #include "ByteCodeInterpreter.h"
-#include "LED.h"
-#include "Debug.h"
 
 int main()
 {
 
-  // Communication com;
-  LED laLed(&PORTA, &DDRA, PA0, PA1);
+  ByteCodeInterpreter bct;
 
-  ByteCodeInterpreter byteCodeInterpreter;
-  Communication comm;
-
-  while (true)
+  while (1)
   {
-    laLed.turnLedRed();
-    DEBUG("HELLO", comm);
+    bct.run();
   }
-
   return 0;
 }
