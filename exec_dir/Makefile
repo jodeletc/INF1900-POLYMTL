@@ -29,7 +29,7 @@ PROJECTNAME=test
 # Utilisez le suffixe .cpp pour les fichiers C++
 # Listez tous les fichiers a compiler, separes par
 # un espace. exemple: 'tp1.c tp2.cpp':
-PRJSRC= main.cpp
+PRJSRC= load_prog.cpp
 
 # Inclusions additionnels (ex: -I/path/to/mydir)
 INC=-I../lib_dir
@@ -169,6 +169,9 @@ install: $(HEXROMTRG)
 
 debug: CFLAGS += -DACTIVE_DEBUG
 debug: install
+
+load: CFLAGS += -DACTIVE_LOAD
+load: install
 
 # Make clean permet d'effacer tout les fichiers generes
 # lors de la compilation

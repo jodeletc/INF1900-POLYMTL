@@ -1,5 +1,9 @@
-#include "Timer.h"
+/**
+ * @file Timer.cpp
+ * @brief Implementation of the Timer class.
+*/
 
+#include "Timer.h"
 
 /**
  * @brief Finds the prescaler bits for a given prescaler value and timer number.
@@ -61,6 +65,8 @@ uint8_t Timer::findPrescalerBits(uint16_t prescaler, uint8_t timer){
             return 0;
     }
 }
+
+Timer::Timer(){}
 
 /**
  * @brief Constructor for the Timer class. Initializes the timer with the provided configuration.
