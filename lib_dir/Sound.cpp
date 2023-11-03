@@ -5,20 +5,20 @@ uint16_t ChosenFrequency = 0;
  
 Sound::Sound()
 {
-    DDRD |= (1 << PD7) | (1 << PD6); // car D0, D1, D5 et D4 sont deja pris
-    PORTD |= (1 << PD7);
-    PORTD &= ~(1 << PD6);
+    DDRD |= (1 << PD1) | (1 << PD0); // car D0, D1, D5 et D4 sont deja pris
+    PORTD |= (1 << PD1);
+    PORTD &= ~(1 << PD0);
 }
 
 void Sound::stopSound()
 {
-    PORTD &= ~(1 << PD7);
+    PORTD &= ~(1 << PD1);
     TCCR2A &= ~(1 << COM2A0);
 }
 
 void Sound::stopSound()
 {
-    PORTD &= ~(1 << PD7);
+    PORTD &= ~(1 << PD1);
     TCCR2A &= ~(1 << COM2A0);
 }
 
@@ -151,7 +151,7 @@ void Sound::chooseFrequency(uint8_t note);
             ChosenFrequency = 880;
             break;
     }
-    makeSound(F_CPU / (ChosenFrequency*2);
+    makeSound(F_CPU / (ChosenFrequency*2));
 }
 
 
